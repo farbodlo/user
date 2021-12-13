@@ -1,13 +1,18 @@
 import React from "react";
+import Card from "../UI/Card/Card";
 
 const MemberItem = (props) => {
   return (
-    <div>
-      <h4>Username :</h4>
-      <p>{props.userName}</p>
-      <h4>Age :</h4>
-      <p>{props.userAge} years old</p>
-    </div>
+    <Card>
+      <div>
+        <label>Username :</label>
+        <span>{props.userName}</span>
+      </div>
+      <div>
+        <label>Age :</label>
+        <span>{props.userAge} years old</span>
+      </div>
+    </Card>
   );
 };
 
