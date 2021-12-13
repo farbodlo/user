@@ -1,0 +1,8 @@
+.username,
+.age {
+  color: black;
+}
+.username.invalid,
+.age.invalid {
+  color: red;
+}

@@ -1,45 +1,98 @@
 import React, { useState } from "react";
-import Button from "../UI/Button/Button";
-import Card from "../UI/Card/Card";
-import Input from "../UI/Input/Input";
+import Button from "../UI/Button";
+import Input from "../UI/Input";
+import styles from "./NewUserForm.module.css";
 
 const NewUserForm = (props) => {
-  const [username, setUserName] = useState("");
+  const [userName, setUserName] = useState("");
   const [age, setAge] = useState("");
+  const [userNameIsValid, setUserNameIsValid] = useState(true);
+  const [ageIsValid, setAgeIsValid] = useState(true);
+  const [userNameContetnError, setUserNameContentError] = useState("");
+  const [ageContentError, setAgeContentError] = useState("");
 
   const usernameHandler = (event) => {
-    setUserName(event.target.value);
+    if (event.target.value.length > 0) {
+      setUserNameIsValid(true);
+      setUserName(event.target.value);
+    }
   };
   const ageHandler = (event) => {
-    setAge(event.target.value);
+    if (event.target.value.length > 0) {
+      setAgeIsValid(true);
+      setAge(event.target.value);
+    }
   };
 
   const addUserHandler = (event) => {
     event.preventDefault();
+
+    if (userName.trim().length === 0) {
+      setUserNameIsValid(false);
+      setUserNameContentError("Username must be entered!");
+      return;
+    } else {
+      setUserNameIsValid(true);
+      setUserNameContentError("");
+    }
+    if (age.trim().length === 0) {
+      setAgeIsValid(false);
+      setAgeContentError("Age must be entered!");
+      return;
+    } else {
+      setAgeIsValid(true);
+      setAgeContentError("");
+    }
+    if (+age < 1) {
+      setAgeIsValid(false);
+      setAgeContentError("Age can not be 0 or negative!");
+      return;
+    } else setAgeIsValid(true);
     const userInfo = {
-      userName: username,
+      userName: userName,
       userAge: age,
     };
     setUserName("");
     setAge("");
     props.onSave(userInfo);
-    console.log(username);
-    console.log(age);
   };
 
   return (
-    <Card>
-      <form onSubmit={addUserHandler}>
-        <label>Username :</label>
-        <Input type="text" onChange={usernameHandler} />
-        {/* <input type="text" onChange={usernameHandler} /> */}
-        <label>Age :</label>
-        <Input type="number" min="0" onChange={ageHandler} />
-        {/* <input type="number" min="0" onChange={ageHandler} /> */}
-        <Button type="submit">Add User</Button>
-        {/* <button type="submit">Add User</button> */}
-      </form>
-    </Card>
+    <form onSubmit={addUserHandler}>
+      <div>
+        <label
+          className={`${styles["username"]} ${
+            !userNameIsValid && styles.invalid
+          }`}
+        >
+          Username :
+        </label>
+        <Input
+          type="text"
+          value={userName}
+          onChange={usernameHandler}
+          className={!userNameIsValid && "invalid"}
+        />
+        {userNameContetnError && <p> {userNameContetnError} </p>}
+      </div>
+      <div>
+        <label className={`${styles["age"]} ${!ageIsValid && styles.invalid}`}>
+          Age :
+        </label>
+        <Input
+          type="number"
+          value={age}
+          onChange={ageHandler}
+          className={!ageIsValid && "invalid"}
+        />
+        {ageContentError && <p> {ageContentError} </p>}
+      </div>
+      <Button
+        type="submit"
+      >
+        Add User
+      </Button>
+    </form>
   );
 };
 
