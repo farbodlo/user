@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "../UI/Card";
-import NewUserForm from "./NewUserForm";
+// import NewUserForm from "./NewUserForm";
+import NewUserForm2 from "./NewUserForm2";
 
 const NewUser = (props) => {
   const saveUserInfo = (prevUserInfo) => {
@@ -12,7 +13,7 @@ const NewUser = (props) => {
   };
   return (
     <Card>
-      <NewUserForm onSave={saveUserInfo} />
+      <NewUserForm2 onSave={saveUserInfo} />
     </Card>
   );
 };
